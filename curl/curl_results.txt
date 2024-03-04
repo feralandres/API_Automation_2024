@@ -1,0 +1,316 @@
+Microsoft Windows [Version 10.0.22631.3155]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\fernanda.alandres>cd curl_api
+
+C:\Users\fernanda.alandres\curl_api>set access_token=2/1206748781878328/1206748584735879:598daf442fa06b64476cb219e41aed11
+
+C:\Users\fernanda.alandres\curl_api>echo %access_token%
+2/1206748781878328/1206748584735879:598daf442fa06b64476cb219e41aed11
+
+C:\Users\fernanda.alandres\curl_api>curl --request GET --url "https://app.asana.com/api/1.0/projects" --header "accept: application/json" --header "authorization: Bearer %access_token%" | jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   239  100   239    0     0    179      0  0:00:01  0:00:01 --:--:--   179
+{
+  "data": [
+    {
+      "gid": "1206748670911380",
+      "name": "My Tasks",
+      "resource_type": "project"
+    },
+    {
+      "gid": "1206748950162575",
+      "name": "Stuff to buy",
+      "resource_type": "project"
+    },
+    {
+      "gid": "1206748578616129",
+      "name": "New name for project",
+      "resource_type": "project"
+    }
+  ]
+}
+
+C:\Users\fernanda.alandres\curl_api>nano data1.json
+
+C:\Users\fernanda.alandres\curl_api>curl --request POST --url "https://app.asana.com/api/1.0/workspaces/1206748781878338/projects" --header "accept: application/json" --header "authorization: Bearer %access_token%" --header "content-type: application/json" --data  @data1.json
+{"data":{"gid":"1206756057521220","resource_type":"project","created_at":"2024-03-04T17:44:16.972Z","modified_at":"2024-03-04T17:44:16.972Z","members":[{"gid":"1206748781878328","resource_type":"user","name":"Fernanda Alandres"}],"owner":{"gid":"1206748781878328","resource_type":"user","name":"Fernanda Alandres"},"due_date":"2019-03-04","due_on":"2019-03-04","current_status_update":null,"current_status":null,"public":false,"name":"My Home Tasks","notes":"","archived":false,"workspace":{"gid":"1206748781878338","resource_type":"workspace","name":"My workspace"},"team":{"gid":"1206748781878340","resource_type":"team","name":"My workspace"},"permalink_url":"https://app.asana.com/0/1206756057521220/1206756057521220","default_view":"board","default_access_level":"editor","minimum_access_level_for_customization":"editor","minimum_access_level_for_sharing":"editor","start_on":"2019-03-03","completed":false,"completed_at":null,"completed_by":null,"color":"light-blue","followers":[{"gid":"1206748781878328","resource_type":"user","name":"Fernanda Alandres"}],"custom_fields":[],"custom_field_settings":[],"icon":"board"}}
+C:\Users\fernanda.alandres\curl_api>nano data2.json
+
+C:\Users\fernanda.alandres\curl_api>curl --request PUT --url "https://app.asana.com/api/1.0/projects/1206748578616129" --header "accept: application/json" --header "authorization: Bearer %access_token%" --header "content-type: application/json" --data @data2.json | jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1152  100  1105  100    47   1116     47  0:00:01 --:--:--  0:00:01  1165
+{
+  "data": {
+    "gid": "1206748578616129",
+    "resource_type": "project",
+    "created_at": "2024-03-04T05:13:44.184Z",
+    "modified_at": "2024-03-04T17:46:22.418Z",
+    "owner": {
+      "gid": "1206748781878328",
+      "resource_type": "user",
+      "name": "Fernanda Alandres"
+    },
+    "due_date": null,
+    "due_on": null,
+    "current_status_update": null,
+    "current_status": null,
+    "public": true,
+    "name": "Edit project name",
+    "notes": "",
+    "archived": false,
+    "workspace": {
+      "gid": "1206748781878338",
+      "resource_type": "workspace",
+      "name": "My workspace"
+    },
+    "team": {
+      "gid": "1206748781878340",
+      "resource_type": "team",
+      "name": "My workspace"
+    },
+    "permalink_url": "https://app.asana.com/0/1206748578616129/1206748578616129",
+    "default_view": "list",
+    "default_access_level": "editor",
+    "minimum_access_level_for_customization": "editor",
+    "minimum_access_level_for_sharing": "editor",
+    "start_on": null,
+    "completed": false,
+    "completed_at": null,
+    "completed_by": null,
+    "members": [
+      {
+        "gid": "1206748781878328",
+        "resource_type": "user",
+        "name": "Fernanda Alandres"
+      }
+    ],
+    "custom_field_settings": [],
+    "custom_fields": [],
+    "color": "dark-purple",
+    "followers": [
+      {
+        "gid": "1206748781878328",
+        "resource_type": "user",
+        "name": "Fernanda Alandres"
+      }
+    ],
+    "icon": "list"
+  }
+}
+
+C:\Users\fernanda.alandres\curl_api>curl --request DELETE --url "https://app.asana.com/api/1.0/projects/1206748578616129" --header "accept: application/json" --header "authorization: Bearer %access_token%"
+{"data":{}}
+C:\Users\fernanda.alandres\curl_api>nano data1.json
+
+C:\Users\fernanda.alandres\curl_api>curl --request POST --url "https://app.asana.com/api/1.0/workspaces/1206748781878338/projects" --header "accept: application/json" --header "authorization: Bearer %access_token%" --header "content-type: application/json" --data  @data1.json -v | jq
+Note: Unnecessary use of -X or --request, POST is already inferred.
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 3.162.199.61:443...
+* Connected to app.asana.com (3.162.199.61) port 443
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* ALPN: server accepted http/1.1
+* using HTTP/1.1
+> POST /api/1.0/workspaces/1206748781878338/projects HTTP/1.1
+> Host: app.asana.com
+> User-Agent: curl/8.4.0
+> accept: application/json
+> authorization: Bearer 2/1206748781878328/1206748584735879:598daf442fa06b64476cb219e41aed11
+> content-type: application/json
+> Content-Length: 203
+>
+} [203 bytes data]
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+100   203    0     0  100   203      0    163  0:00:01  0:00:01 --:--:--   163< HTTP/1.1 400 Bad Request
+< Content-Type: application/json; charset=UTF-8
+< Content-Length: 202
+< Connection: keep-alive
+< Date: Mon, 04 Mar 2024 17:49:15 GMT
+< Server: nginx
+< cache-control: no-store
+< pragma: no-cache
+< x-frame-options: DENY
+< x-xss-protection: 1; mode=block
+< x-content-type-options: nosniff
+< content-security-policy: report-uri https://app.asana.com/-/csp_report?report_only=false;default-src 'none';frame-src 'none';frame-ancestors 'none'
+< x-asana-api-version: 1.0
+< asana-change: name=new_user_task_lists;info=https://forum.asana.com/t/update-on-our-planned-api-changes-to-user-task-lists-a-k-a-my-tasks/103828
+< asana-change: name=new_goal_memberships;info=https://forum.asana.com/t/launched-team-sharing-for-goals/378601;affected=true
+< x-robots-tag: none
+< X-Cache: Error from cloudfront
+< Via: 1.1 bbfc949357330db97a0f221a32a4d2e0.cloudfront.net (CloudFront)
+< X-Amz-Cf-Pop: SCL51-P3
+< X-Amz-Cf-Id: jeDkhlOno8ZbG0BPofkxqOAiZSiTV-eW36Imy0sMJS7UZ8_Nc9ayyw==
+<
+{ [202 bytes data]
+100   405  100   202  100   203    106    107  0:00:01  0:00:01 --:--:--   213
+* Connection #0 to host app.asana.com left intact
+{
+  "errors": [
+    {
+      "message": "Start date must be before due date.",
+      "help": "For more information on API status codes and how to handle them, read the docs on errors: https://developers.asana.com/docs/errors"
+    }
+  ]
+}
+
+C:\Users\fernanda.alandres\curl_api>curl --request GET --url "https://app.asana.com/api/1.0/projects/1206748578616067" --header "accept: application/json" --header "authorization: Bearer %access_token%" -v | jq
+Note: Unnecessary use of -X or --request, GET is already inferred.
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 3.162.199.61:443...
+* Connected to app.asana.com (3.162.199.61) port 443
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server accepted http/1.1
+* using HTTP/1.1
+> GET /api/1.0/projects/1206748578616067 HTTP/1.1
+> Host: app.asana.com
+> User-Agent: curl/8.4.0
+> accept: application/json
+> authorization: Bearer 2/1206748781878328/1206748584735879:598daf442fa06b64476cb219e41aed11
+>
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+< HTTP/1.1 404 Not Found
+< Content-Type: application/json; charset=UTF-8
+< Content-Length: 213
+< Connection: keep-alive
+< Date: Mon, 04 Mar 2024 17:52:44 GMT
+< Server: nginx
+< x-frame-options: DENY
+< x-xss-protection: 1; mode=block
+< x-content-type-options: nosniff
+< content-security-policy: report-uri https://app.asana.com/-/csp_report?report_only=false;default-src 'none';frame-src 'none';frame-ancestors 'none'
+< x-asana-api-version: 1.1
+< asana-change: name=new_user_task_lists;info=https://forum.asana.com/t/update-on-our-planned-api-changes-to-user-task-lists-a-k-a-my-tasks/103828
+< asana-change: name=new_goal_memberships;info=https://forum.asana.com/t/launched-team-sharing-for-goals/378601;affected=true
+< x-robots-tag: none
+< X-Cache: Error from cloudfront
+< Via: 1.1 61aac06ae6b74aa288a362dd2239b78e.cloudfront.net (CloudFront)
+< X-Amz-Cf-Pop: SCL51-P3
+< X-Amz-Cf-Id: Yd4yrcUj2hZ0I2W4IkxQE35oYLEodoX1lW4yIXRWRuHKOo4wCBBrMQ==
+<
+{ [213 bytes data]
+100   213  100   213    0     0    263      0 --:--:-- --:--:-- --:--:--   263
+* Connection #0 to host app.asana.com left intact
+{
+  "errors": [
+    {
+      "message": "project: Not a recognized ID: 1206748578616067",
+      "help": "For more information on API status codes and how to handle them, read the docs on errors: https://developers.asana.com/docs/errors"
+    }
+  ]
+}
+
+C:\Users\fernanda.alandres\curl_api>curl --request PATCH --url "https://app.asana.com/api/1.0/projects/1206748950162575" --header "accept: application/json" --header "authorization: Bearer %access_token%" --header "content-type: application/json" --data @data2.json -v | jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 3.162.199.61:443...
+* Connected to app.asana.com (3.162.199.61) port 443
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server accepted http/1.1
+* using HTTP/1.1
+> PATCH /api/1.0/projects/1206748950162575 HTTP/1.1
+> Host: app.asana.com
+> User-Agent: curl/8.4.0
+> accept: application/json
+> authorization: Bearer 2/1206748781878328/1206748584735879:598daf442fa06b64476cb219e41aed11
+> content-type: application/json
+> Content-Length: 47
+>
+} [47 bytes data]
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+< HTTP/1.1 404 Not Found
+< Content-Type: application/json; charset=UTF-8
+< Content-Length: 196
+< Connection: keep-alive
+< Date: Mon, 04 Mar 2024 17:55:26 GMT
+< Server: nginx
+< x-frame-options: DENY
+< x-xss-protection: 1; mode=block
+< x-content-type-options: nosniff
+< content-security-policy: report-uri https://app.asana.com/-/csp_report?report_only=false;default-src 'none';frame-src 'none';frame-ancestors 'none'
+< x-asana-api-version: 1.1
+< asana-change: name=new_user_task_lists;info=https://forum.asana.com/t/update-on-our-planned-api-changes-to-user-task-lists-a-k-a-my-tasks/103828
+< asana-change: name=new_goal_memberships;info=https://forum.asana.com/t/launched-team-sharing-for-goals/378601;affected=true
+< x-robots-tag: none
+< X-Cache: Error from cloudfront
+< Via: 1.1 b71dbcd26a0628d03908073975ec862a.cloudfront.net (CloudFront)
+< X-Amz-Cf-Pop: SCL51-P3
+< X-Amz-Cf-Id: CldRZOeIysJ7tnbw7xieyzVtnAFuKOExJf5gRvZGnmO6BwyJP0O5ng==
+<
+{ [196 bytes data]
+100   243  100   196  100    47    271     65 --:--:-- --:--:-- --:--:--   337
+* Connection #0 to host app.asana.com left intact
+{
+  "errors": [
+    {
+      "message": "No matching route for request",
+      "help": "For more information on API status codes and how to handle them, read the docs on errors: https://developers.asana.com/docs/errors"
+    }
+  ]
+}
+
+C:\Users\fernanda.alandres\curl_api>curl --request DELETE --url "https://app.asana.com/api/1.0/projects/1234567890" --header "accept: application/json" --header "authorization: Bearer %access_token%"
+{"errors":[{"message":"project: Not a recognized ID: 1234567890","help":"For more information on API status codes and how to handle them, read the docs on errors: https://developers.asana.com/docs/errors"}]}
+C:\Users\fernanda.alandres\curl_api>curl --request DELETE --url "https://app.asana.com/api/1.0/projects/1234567890" --header "accept: application/json" --header "authorization: Bearer %access_token%" -v | jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 3.162.199.94:443...
+* Connected to app.asana.com (3.162.199.94) port 443
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server accepted http/1.1
+* using HTTP/1.1
+> DELETE /api/1.0/projects/1234567890 HTTP/1.1
+> Host: app.asana.com
+> User-Agent: curl/8.4.0
+> accept: application/json
+> authorization: Bearer 2/1206748781878328/1206748584735879:598daf442fa06b64476cb219e41aed11
+>
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+< HTTP/1.1 404 Not Found
+< Content-Type: application/json; charset=UTF-8
+< Content-Length: 207
+< Connection: keep-alive
+< Date: Mon, 04 Mar 2024 17:56:52 GMT
+< Server: nginx
+< x-frame-options: DENY
+< x-xss-protection: 1; mode=block
+< x-content-type-options: nosniff
+< content-security-policy: report-uri https://app.asana.com/-/csp_report?report_only=false;default-src 'none';frame-src 'none';frame-ancestors 'none'
+< x-asana-api-version: 1.0
+< asana-change: name=new_user_task_lists;info=https://forum.asana.com/t/update-on-our-planned-api-changes-to-user-task-lists-a-k-a-my-tasks/103828
+< asana-change: name=new_goal_memberships;info=https://forum.asana.com/t/launched-team-sharing-for-goals/378601;affected=true
+< x-robots-tag: none
+< X-Cache: Error from cloudfront
+< Via: 1.1 8ae3fbfab7d59066d78a2aa899cbecbc.cloudfront.net (CloudFront)
+< X-Amz-Cf-Pop: SCL51-P3
+< X-Amz-Cf-Id: u7y4Fk00eJKiXKZB64I20EEAzLrrNpxTJHC-Fr8wHBWQ0SgAaTzAMA==
+<
+{ [207 bytes data]
+100   207  100   207    0     0    386      0 --:--:-- --:--:-- --:--:--   389
+* Connection #0 to host app.asana.com left intact
+{
+  "errors": [
+    {
+      "message": "project: Not a recognized ID: 1234567890",
+      "help": "For more information on API status codes and how to handle them, read the docs on errors: https://developers.asana.com/docs/errors"
+    }
+  ]
+}
+
+C:\Users\fernanda.alandres\curl_api>     
