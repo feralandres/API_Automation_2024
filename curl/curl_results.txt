@@ -1,13 +1,3 @@
-Microsoft Windows [Version 10.0.22631.3155]
-(c) Microsoft Corporation. All rights reserved.
-
-C:\Users\fernanda.alandres>cd curl_api
-
-C:\Users\fernanda.alandres\curl_api>set access_token=2/1206748781878328/1206748584735879:598daf442fa06b64476cb219e41aed11
-
-C:\Users\fernanda.alandres\curl_api>echo %access_token%
-2/1206748781878328/1206748584735879:598daf442fa06b64476cb219e41aed11
-
 C:\Users\fernanda.alandres\curl_api>curl --request GET --url "https://app.asana.com/api/1.0/projects" --header "accept: application/json" --header "authorization: Bearer %access_token%" | jq
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
