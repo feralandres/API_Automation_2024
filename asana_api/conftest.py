@@ -1,7 +1,13 @@
+"""
+(c) Copyright Jalasoft. 2024
+
+conftest.py
+    file that contains fixtures for tests
+"""
 import logging
 
 import pytest
-import requests
+# import requests
 
 from config.config import URL_ASANA, WORKSPACE_ASANA
 from helpers.rest_client import RestClient
@@ -10,12 +16,14 @@ from utils.logger import get_logger
 LOGGER = get_logger(__name__, logging.DEBUG)
 
 
-@pytest.fixture()
-def create_project(request):
-
+@pytest.fixture(name="create_project")
+def create_project_fixture(request):
+    """
+    Fixture to create a new project
+    """
     LOGGER.debug("Create project fixture")
-    # environment = request.config.getoption("--env")
-    # LOGGER.critical("Environment selected: %s", environment)
+    environment = request.config.getoption("--env")
+    LOGGER.critical("Environment selected: %s", environment)
     body_project = {
         "name": "My Work Tasks 3"
     }
@@ -29,9 +37,11 @@ def create_project(request):
     delete_project(project_id, rest_client)
 
 
-@pytest.fixture()
-def create_section(get_project):
-
+@pytest.fixture(name="create_section")
+def create_section_fixture(get_project):
+    """
+    Fixture to create a new section
+    """
     LOGGER.debug("Create section fixture")
 
     project_id = f"{get_project}"
@@ -44,8 +54,12 @@ def create_section(get_project):
 
     return response["body"]
 
-@pytest.fixture()
-def create_task(create_project):
+
+@pytest.fixture(name="create_task")
+def create_task_fixture(create_project):
+    """
+    Fixture to create a new task
+    """
     content_body_task = {
         "projects": [
             f"{create_project}"
@@ -59,8 +73,11 @@ def create_task(create_project):
 
     yield id_task_created
 
-@pytest.fixture()
-def get_project():
+@pytest.fixture(name="get_project")
+def get_project_fixture():
+    """
+    Fixture to get a project
+    """
     rest_client = RestClient()
     response = rest_client.request("get", URL_ASANA+"/projects")
     project_id = response["body"]['data'][0]['gid']
@@ -70,7 +87,11 @@ def get_project():
 
 
 @pytest.fixture()
-def log_test_name(request):
+def _test_log_name(request):
+    """
+    Fixture to Log the test names in logs
+    :param request:     Object to get the test node name
+    """
     LOGGER.info("Test '%s' STARTED", request.node.name)
 
     def fin():
@@ -78,14 +99,25 @@ def log_test_name(request):
 
     request.addfinalizer(fin)
 
+
 def delete_project(project_id, rest_client):
+    """
+    Fixture to delete project
+    :param project_id:  str     project id to be deleted
+    :param project:     object  project object
+    """
     LOGGER.info("Cleanup project...")
     url_delete_project = f"{URL_ASANA}/projects/{project_id}"
     response = rest_client.request("delete", url=url_delete_project)
     if response["status_code"] == 200:
         LOGGER.info("Project id: %s deleted", project_id)
 
+
 def pytest_addoption(parser):
+    """
+    PyTest method to get parameters from shell
+    :param parser:  object  Parse object to manage the custom parameters
+    """
     parser.addoption(
         '--env', action='store', default='dev', help="Environment where the tests are executed"
     )

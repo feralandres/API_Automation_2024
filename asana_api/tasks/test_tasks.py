@@ -1,5 +1,13 @@
+"""
+(c) Copyright Jalasoft. 2024
+
+test_tasks.py
+    file that contains pytest tests for tasks endpoint
+"""
 import logging
 
+import allure
+import pytest
 
 from config.config import URL_ASANA
 from helpers.rest_client import RestClient
@@ -8,10 +16,17 @@ from utils.logger import get_logger
 
 LOGGER = get_logger(__name__, logging.DEBUG)
 
+@allure.epic("ASANA API")
+@allure.story("Tasks")
 class TestTasks:
-
+    """
+    Clas for testing tasks endpoints
+    """
     @classmethod
     def setup_class(cls):
+        """
+        Setup Class to initialize variables or objects
+        """
         LOGGER.debug("SetupClass method")
         cls.url_projects = f"{URL_ASANA}/projects"
         cls.url_sections = f"{URL_ASANA}/sections"
@@ -19,7 +34,12 @@ class TestTasks:
         cls.list_tasks = []
         cls.rest_client = RestClient()
 
-    def test_get_all_tasks_project(self, create_project, log_test_name):
+    @allure.feature("List Tasks")
+    @allure.title("Test get all tasks")
+    @allure.description("Test that show the response of list of all tasks")
+    @allure.tag("acceptance", "tasks")
+    @pytest.mark.acceptance
+    def test_get_all_tasks_project(self, create_project, _test_log_name):
         """
         Test get all tasks of a project
         """
@@ -28,7 +48,12 @@ class TestTasks:
 
         assert response["status_code"] == 200, "wrong status code, expected 200"
 
-    def test_create_task(self, create_project, log_test_name):
+    @allure.feature("Create Task")
+    @allure.title("Test create task")
+    @allure.description("Test that show the response of create task")
+    @allure.tag("acceptance", "tasks")
+    @pytest.mark.acceptance
+    def test_create_task(self, create_project, _test_log_name):
         """
         Test create task
         """
@@ -43,7 +68,12 @@ class TestTasks:
         self.list_tasks.append(id_task_created)
         assert response["status_code"] == 201, "wrong status code, expected 201"
 
-    def test_delete_task(self, create_task, log_test_name):
+    @allure.feature("Delete Task")
+    @allure.title("Test delete task")
+    @allure.description("Test that show the response of delete a task")
+    @allure.tag("acceptance", "tasks")
+    @pytest.mark.acceptance
+    def test_delete_task(self, create_task, _test_log_name):
         """
         Test delete task
         """
@@ -51,7 +81,12 @@ class TestTasks:
         response = self.rest_client.request("delete", url=url_delete_task)
         assert response["status_code"] == 200, "wrong status code, expected 200"
 
-    def test_update_task(self, create_task, log_test_name):
+    @allure.feature("Update Task")
+    @allure.title("Test update task")
+    @allure.description("Test that show the response of update a task")
+    @allure.tag("acceptance", "tasks")
+    @pytest.mark.acceptance
+    def test_update_task(self, create_task, _test_log_name):
         """
         Test update task
         """
@@ -75,6 +110,4 @@ class TestTasks:
             url_delete_task = f"{URL_ASANA}/tasks/{id_task}"
             response = cls.rest_client.request("delete", url=url_delete_task)
             if response["status_code"] == 200:
-               LOGGER.info("Section id: %s deleted", id_task)
-
-
+                LOGGER.info("Section id: %s deleted", id_task)
